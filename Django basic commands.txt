@@ -1,0 +1,412 @@
+
+// Commands are at the end of this file
+Some basic stuff
+1. models.py handles all the structure related stuff
+
+from django.db import models
+class Product(models.Model):
+	title 		= models.CharField(max_length=120)
+	description 	= models.TextField(blank=True, null=True)
+	price 		= models.DecimalField(decimal_places=2, max_digits=10000)
+	summary		= models.TextField(blank=False, null=False, default='This is unintentional')
+	featured	= models.BooleanField(null=False, default=True)	#null=True, default=True
+
+// remember: whenever you make a new model in model.py make sure to register in admin.py
+
+from django.contrib import admin
+from .models import Product
+# Register your models here.
+admin.site.register(Product)
+
+2. views.py handles various webpages
+
+from django.http import HttpResponse
+from django.shortcuts import render
+
+# Create your views here.
+def home_view(request, *args, **kwargs):
+	print(args, kwargs)
+	print(request.user)
+	return HttpResponse("<h1>Hello World</h1>") #string of html code
+
+def contact_view(request, *args, **kwargs):
+	return HttpResponse("<h1>Contact Page</h1>")
+
+// a view has a few parameters of which request tells which request it is like GET or POST
+// request.user tells about the current user,  anonymous in incognito
+
+//remember whenever you create a new view you must add its path to urls.py
+
+from django.contrib import admin
+from django.urls import path
+from pages.views import home_view, contact_view
+urlpatterns = [
+	path('', home_view, name='home'),
+	path('home/', home_view, name='home'),
+	path('contact/', contact_view),
+    path('admin/', admin.site.urls),
+]
+
+
+3. Better way of creating views(Preffered one)
+
+def home_view(request, *args, **kwargs):
+	print(args, kwargs)
+	print(request.user)
+	# return HttpResponse("<h1>Hello World</h1>") #string of html code
+	return render(request, "home.html", {})
+	#where home.html is the template, and {} is context or empty dictionary
+
+// this home.html template needs to be saved in a src/templates/ folder
+// also the path to this directory needs to be specified in settings.py under TEMPLATES under DIR like
+
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [os.path.join(BASE_DIR, "templates")],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
+
+// here BASE_DIR is the default path where our manage.py is located, templates folder is also at the same level
+// so we join templates folder to this path
+
+
+4. Template Inheritance
+
+<!-- Here, we are talking about template inheritance and this is our base template as some parts of all pages are shared like navigation bar,etc -->
+<!DOCTYPE html>
+<html>
+<head>
+	<title>This is my Title in base.html </title>
+</head>
+<body>
+	<h1>This is a navbar </h1>
+	{% block content %}
+	replace me
+	{% endblock %}
+
+	{% block content_another %}
+	replace me with another
+	{% endblock %}
+
+</body>
+</html>
+
+
+//home.html
+{% extends 'base.html' %}
+
+{% block content %}
+	<h1> Hello World </h1>
+	<!-- {{ request.user.is_authenticated }} -->
+	<p>This is a template.</p>
+{% endblock %}
+
+
+//contact.html
+{% extends 'base.html' %}
+
+{% block content %}
+<h1> Contact Page </h1>
+<p>This is a template.</p>
+{% endblock content %}
+
+{% block content_another %}
+<h1> Google Maps </h1>
+<p>This is a template.</p>
+{% endblock content_another %}
+
+
+5. INCLUDE TEMPLATE TAG
+
+create a new html template for navbar.html
+<nav>
+	<ul>
+		<li>Brand</li>
+		<li>Contact</li>
+		<li>About</li>
+		<li>Home</li>
+	</ul>
+</nav>
+
+then in base.html use include tag like this
+
+{% include 'navbar.html' %}
+
+
+6. Rendering Context in a Template (1:26:49) (to be continued)
+
+Context can be any data type.
+def about_view(request, *args, **kwargs):
+	my_context = {
+		"my_text": "This is about us",
+		"my_number": 123,
+		"my_list": [123, 4242, 12313]
+	}
+	return render(request, "about.html", my_context)
+
+//here my_context is passed as context to about.html
+
+We use {{ }} to access a context variable in the about.html
+
+for example, in about.html we use context variables like:
+
+//about.html
+{% extends 'base.html' %}
+
+{% block content %}
+<h1> About Page </h1>
+<p>This is a template.</p>
+{% endblock content %}
+
+{% block content_another %}
+<h1> Introduction </h1>
+<p>This is a template.</p>
+
+<p>
+	{{ my_text }}, {{ my_number }} {{ my_list }}
+</p>
+{% endblock content_another %}
+
+
+7. FOR Loop in a template
+
+for loop can be used to iterate over a list as a context variable in a template
+
+<ul>
+{% for my_sub_item in my_list %}
+	<li>{{ forloop.counter }} - {{ my_sub_item }}</li>
+{% endfor %}
+</ul>
+
+//It will print an unordered list of all list elements with 1-based indexing because of forloop.counter
+
+//be careful of the variable names, never use a same name twice may end up getting scope related issues with conditionals
+
+
+8. Using conditions in a template
+
+<ul>
+{% for my_sub_item in my_list %}
+	{% if my_sub_item == 312 %}
+		<li>{{ forloop.counter }} - {{ my_sub_item|add:22 }}</li>
+	{% elif my_sub_item == "ABCD" %}
+		<li>This is not a network</li>
+	{% else %}
+		<li>{{ forloop.counter }} - {{ my_sub_item }}</li>
+	{% endif %}
+
+{% endfor %}
+</ul>
+
+// here add:22 is a built in template tag filter, which performs a very basic function to add 22 to the context variable
+// every context variable is itself inside a template tag i.e it is rendering something out which is specific to the django template and the templating engine
+
+
+9. Template Tags and Filters
+
+a few inbuilt template tags are extends, block, for, if, include, 
+in above code, {{ my_sub_item|add:22 }} , add is a built in filter on the context variable {{ my_sub_item }}
+we can apply a filter on any context variable, ie any variable enclosed in {{ }}
+
+def about_view(request, *args, **kwargs):
+	my_context = {
+		"my_text": "this is about us",
+		"my_number": 123,
+		"my_list": [123, 4242, 312, "ABCD"],
+		"my_html": "<h1>Hello World</h1>"
+	}
+	return render(request, "about.html", my_context)
+
+//about.html
+<!-- capfirst filter on a context variable makes the first letter capital -->
+<!-- We can stack the filters together like after capfirst we have used upper -->
+<h3> {{ my_text|capfirst|upper }} </h3>
+
+<!-- If you pass html as a context variable then it is rendered as plain text, so we can use safe filter to actually render it as html -->
+{{ my_html|safe }}
+<!-- if you use striptags with html passed as context variable, it renders it as plain text and removes the tags from it -->
+{{ my_html|striptags }}
+<!-- slugify removes any special characters except hyphens and underscores, converts everything to lowercase and replaces spaces with hyphens, also strips leading and trailing whitespaces -->
+{{ my_html|striptags|slugify }}
+
+
+10. Render data from the database with a model
+
+now we are working with the views.py of product app
+
+from django.shortcuts import render
+from .models import Product
+# Create your views here.
+def product_detail_view(request):
+	obj = Product.objects.get(id=1)
+	# context = {
+	# 	'title': obj.title,
+	# 	'description': obj.description
+	# }
+	context = {
+		'object': obj
+	}
+	return render(request, "product/detail.html", context)
+// here we pass our database object as a context variable
+//dont forget to add the view to urls
+
+
+//product/detail.html  ->inside the template/product/detail.html
+{% extends 'base.html' %}
+{% block content %}
+<h1>{{ object.title }}</h1>
+<p>
+	{% if object.description != None and object.decription != '' %}
+	{{ object.description }}
+	{{ object.price }} 
+	{% else %}
+	Decription Coming Soon
+	{% endif %}
+</p>
+{% endblock %}
+
+
+11. How django templates load with apps (1:59:56) (To be continued)
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//For first time virtual environment setup
+python -m pip install pipenv
+> pipenv
+
+Create a Pipenv-based Virtual Environment:
+Navigate to Dev:
+> cd ~/Dev
+Make your project's parent directory:
+> mkdir cfehome
+> cd cfehome
+Create pipenv virtual environment:
+
+> pipenv install
+Using pipenv install will use your default python.
+
+Activate your environment:
+
+> cd \path\to\your\project\
+> pipenv shell
+Nice work! Just verify:
+
+(cfehome) > pip freeze
+the (cfehome) is the name of the virtualenv parent directory from above. When you see this, that means the virtualenv has been activated.
+pip freeze should return nothing at this point
+Verify Python Executable Location
+
+Remember when we set C:\Python38 above? The execuble location should be C:\Python38\python.exe, let's check our pipenv's python executable:
+
+> python
+>>> import sys
+>>> print(sys.executable)
+7. Reactivate and Deactivate Pipenv Virtual Environment
+> cd ~\Dev\cfehome # or your projects's path
+> pipenv shell
+(cfehome) > deactivate
+> pipenv shell
+(cfehome) >
+8. Now install any Python Package:
+> cd ~\Dev\cfehome
+> pipenv shell
+(cfehome) > pipenv install Django==3.0.2
+
+
+// To run Django Server
+
+cd ~/Dev/cfehome
+pipenv shell
+cd ./src
+ls
+python manage.py runserver
+
+
+// Other Django Commands
+
+
+cd ~/Dev/cfehome
+pipenv shell
+pip freeze
+cd ./src
+ls
+pwd
+
+python manage.py startapp product
+python manage.py startapp cart
+//remember: whenever you create a new app, add it to settings.py INSTALLED_APPS
+
+python manage.py createsuperuser
+pip install django==2.1.7
+
+// next two commands used whenever any change is made
+python manage.py makemigrations
+python manage.py migrate
+
+python manage.py shell
+>>> from product.models import Product
+>>> Product.objects.all()
+<QuerySet [<Product: Product object (1)>]>
+>>> Product.objects.create(title='New product2', description='another one', price='19.33', summary='wow')
+<Product: Product object (2)>
+>>> Product.objects.all()
+<QuerySet [<Product: Product object (1)>, <Product: Product object (2)>]>
+>>> Product.objects.create(title='New product2', description='another one', price='19.33', summary='wow')
+<Product: Product object (3)>
+>>> Product.objects.create(title='New product2', description='another one', price='19.33', summary='wow')
+<Product: Product object (4)>
+>>> Product.objects.create(title='New product2', description='another one', price='19.33', summary='wow')
+<Product: Product object (5)>
+>>> Product.objects.create(title='New product2', description='another one', price='19.33', summary='wow')
+<Product: Product object (6)>
+>>> Product.objects.all()
+<QuerySet [<Product: Product object (1)>, <Product: Product object (2)>, <Product: Product object (3)>, <Product: Product object (4)>, <Product: Product object (5)>, <Product: Product object (6)>]>
+>>> ^Z
+
+python manage.py shell
+>>> from product.models import Product
+>>> Product.objects.all()
+<QuerySet [<Product: Product object (1)>, <Product: Product object (2)>]>
+>>> Product.objects.get(id=1)
+<Product: Product object (1)>
+>>> obj = Product.objects.get(id=1)
+>>> dir(obj)
+['DoesNotExist', 'MultipleObjectsReturned', '__class__', '__delattr__', '__dict__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__getstate__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__le__', '__lt__', '__module__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__setstate__', '__sizeof__', '__str__', '__subclasshook__', '__weakref__', '_check_column_name_clashes', '_check_field_name_clashes', '_check_fields', '_check_id_field', '_check_index_together', '_check_indexes', '_check_local_fields', '_check_long_column_names', '_check_m2m_through_same_relationship', '_check_managers', '_check_model', '_check_model_name_db_lookup_clashes', '_check_ordering', '_check_property_name_related_field_accessor_clashes', '_check_single_primary_key', '_check_swappable', '_check_unique_together', '_do_insert', '_do_update', '_get_FIELD_display', '_get_next_or_previous_by_FIELD', '_get_next_or_previous_in_order', '_get_pk_val', '_get_unique_checks', '_meta', '_perform_date_checks', '_perform_unique_checks', '_save_parents', '_save_table', '_set_pk_val', '_state', 'check', 'clean', 'clean_fields', 'date_error_message', 'delete', 'description', 'featured', 'from_db', 'full_clean', 'get_deferred_fields', 'id', 'objects', 'pk', 'prepare_database_save', 'price', 'refresh_from_db', 'save', 'save_base', 'serializable_value', 'summary', 'title', 'unique_error_message', 'validate_unique']
+>>> obj.title
+'New Product'
+>>> exit()
+

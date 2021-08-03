@@ -1,0 +1,388 @@
+PS C:\Users\kulpr> cd ~/Dev/cfehome
+PS C:\Users\kulpr\Dev\cfehome> pipenv shell
+Launching subshell in virtual environment…
+Windows PowerShell
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+Try the new cross-platform PowerShell https://aka.ms/pscore6
+
+PS C:\Users\kulpr\Dev\cfehome> cd ./src
+PS C:\Users\kulpr\Dev\cfehome\src> ls
+
+
+    Directory: C:\Users\kulpr\Dev\cfehome\src
+
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d-----        13-08-2020     00:11                trydjango
+-a----        13-08-2020     00:49         131072 db.sqlite3
+-a----        13-08-2020     00:11            556 manage.py
+
+
+PS C:\Users\kulpr\Dev\cfehome\src> pwd
+
+Path
+----
+C:\Users\kulpr\Dev\cfehome\src
+
+
+PS C:\Users\kulpr\Dev\cfehome\src> python manage.py startapp product
+PS C:\Users\kulpr\Dev\cfehome\src> python manage.py startapp cart
+PS C:\Users\kulpr\Dev\cfehome\src> python manage.py makemigrations
+Migrations for 'product':
+  product\migrations\0001_initial.py
+    - Create model Product
+PS C:\Users\kulpr\Dev\cfehome\src> python manage.py migrate
+Operations to perform:
+  Apply all migrations: admin, auth, contenttypes, product, sessions
+Running migrations:
+  Applying product.0001_initial... OK
+PS C:\Users\kulpr\Dev\cfehome\src> python manage.py makemigrations
+You are trying to add a non-nullable field 'summary' to product without a default; we can't do that (the database needs something to populate existing rows).
+Please select a fix:
+ 1) Provide a one-off default now (will be set on all existing rows with a null value for this column)
+ 2) Quit, and let me add a default in models.py
+Select an option: 2
+PS C:\Users\kulpr\Dev\cfehome\src> python manage.py makemigrations
+Migrations for 'product':
+  product\migrations\0002_product_summary.py
+    - Add field summary to product
+PS C:\Users\kulpr\Dev\cfehome\src> python manage.py migrate
+Operations to perform:
+  Apply all migrations: admin, auth, contenttypes, product, sessions
+Running migrations:
+  Applying product.0002_product_summary... OK
+PS C:\Users\kulpr\Dev\cfehome\src> python manage.py makemigrations
+No changes detected
+PS C:\Users\kulpr\Dev\cfehome\src> python manage.py migrate
+Operations to perform:
+  Apply all migrations: admin, auth, contenttypes, product, sessions
+Running migrations:
+  No migrations to apply.
+PS C:\Users\kulpr\Dev\cfehome\src> pip freeze
+asgiref==3.2.10
+Django==2.0.7
+pytz==2020.1
+sqlparse==0.3.1
+PS C:\Users\kulpr\Dev\cfehome\src> python manage.py makemigrations
+No changes detected
+PS C:\Users\kulpr\Dev\cfehome\src> python manage.py migrate
+Operations to perform:
+  Apply all migrations: admin, auth, contenttypes, product, sessions
+Running migrations:
+  Applying contenttypes.0001_initial... OK
+  Applying auth.0001_initial... OK
+  Applying admin.0001_initial... OK
+  Applying admin.0002_logentry_remove_auto_add... OK
+  Applying contenttypes.0002_remove_content_type_name... OK
+  Applying auth.0002_alter_permission_name_max_length... OK
+  Applying auth.0003_alter_user_email_max_length... OK
+  Applying auth.0004_alter_user_username_opts... OK
+  Applying auth.0005_alter_user_last_login_null... OK
+  Applying auth.0006_require_contenttypes_0002... OK
+  Applying auth.0007_alter_validators_add_error_messages... OK
+  Applying auth.0008_alter_user_username_max_length... OK
+  Applying auth.0009_alter_user_last_name_max_length... OK
+  Applying product.0001_initial... OK
+  Applying product.0002_product_summary... OK
+  Applying sessions.0001_initial... OK
+PS C:\Users\kulpr\Dev\cfehome\src> python manage.py migrate
+Operations to perform:
+  Apply all migrations: admin, auth, contenttypes, product, sessions
+Running migrations:
+  No migrations to apply.
+PS C:\Users\kulpr\Dev\cfehome\src> python manage.py createsuperuser
+Username (leave blank to use 'kulpr'): cfe
+Email address:
+Password:
+Password (again):
+Superuser created successfully.
+PS C:\Users\kulpr\Dev\cfehome\src> python manage.py makemigrations
+No changes detected
+PS C:\Users\kulpr\Dev\cfehome\src> python manage.py migrate
+Operations to perform:
+  Apply all migrations: admin, auth, contenttypes, product, sessions
+Running migrations:
+  Applying contenttypes.0001_initial... OK
+  Applying auth.0001_initial... OK
+  Applying admin.0001_initial... OK
+  Applying admin.0002_logentry_remove_auto_add... OK
+  Applying contenttypes.0002_remove_content_type_name... OK
+  Applying auth.0002_alter_permission_name_max_length... OK
+  Applying auth.0003_alter_user_email_max_length... OK
+  Applying auth.0004_alter_user_username_opts... OK
+  Applying auth.0005_alter_user_last_login_null... OK
+  Applying auth.0006_require_contenttypes_0002... OK
+  Applying auth.0007_alter_validators_add_error_messages... OK
+  Applying auth.0008_alter_user_username_max_length... OK
+  Applying auth.0009_alter_user_last_name_max_length... OK
+  Applying product.0001_initial... OK
+  Applying product.0002_product_summary... OK
+  Applying sessions.0001_initial... OK
+PS C:\Users\kulpr\Dev\cfehome\src> python manage.py createsuperuser
+Username (leave blank to use 'kulpr'): cfe
+Email address:
+Password:
+Password (again):
+Superuser created successfully.
+PS C:\Users\kulpr\Dev\cfehome\src> pip install django==2.1.7
+Collecting django==2.1.7
+  Downloading Django-2.1.7-py3-none-any.whl (7.3 MB)
+     |████████████████████████████████| 7.3 MB 163 kB/s
+Requirement already satisfied: pytz in c:\users\kulpr\.virtualenvs\cfehome-x9uisgok\lib\site-packages (from django==2.1.7) (2020.1)
+Installing collected packages: django
+  Attempting uninstall: django
+    Found existing installation: Django 2.0.7
+    Uninstalling Django-2.0.7:
+      Successfully uninstalled Django-2.0.7
+Successfully installed django-2.1.7
+PS C:\Users\kulpr\Dev\cfehome\src> python manage.py makemigrations
+No changes detected
+PS C:\Users\kulpr\Dev\cfehome\src> python manage.py migrate
+Operations to perform:
+  Apply all migrations: admin, auth, contenttypes, product, sessions
+Running migrations:
+  Applying contenttypes.0001_initial... OK
+  Applying auth.0001_initial... OK
+  Applying admin.0001_initial... OK
+  Applying admin.0002_logentry_remove_auto_add... OK
+  Applying admin.0003_logentry_add_action_flag_choices... OK
+  Applying contenttypes.0002_remove_content_type_name... OK
+  Applying auth.0002_alter_permission_name_max_length... OK
+  Applying auth.0003_alter_user_email_max_length... OK
+  Applying auth.0004_alter_user_username_opts... OK
+  Applying auth.0005_alter_user_last_login_null... OK
+  Applying auth.0006_require_contenttypes_0002... OK
+  Applying auth.0007_alter_validators_add_error_messages... OK
+  Applying auth.0008_alter_user_username_max_length... OK
+  Applying auth.0009_alter_user_last_name_max_length... OK
+  Applying product.0001_initial... OK
+  Applying product.0002_product_summary... OK
+  Applying sessions.0001_initial... OK
+PS C:\Users\kulpr\Dev\cfehome\src> python manage.py createsuperuser
+Username (leave blank to use 'kulpr'): cfe
+Email address:
+Password:
+Password (again):
+Superuser created successfully.
+PS C:\Users\kulpr\Dev\cfehome\src> python manage.py shell
+Python 3.7.8 (tags/v3.7.8:4b47a5b6ba, Jun 28 2020, 08:53:46) [MSC v.1916 64 bit (AMD64)] on win32
+Type "help", "copyright", "credits" or "license" for more information.
+(InteractiveConsole)
+>>> from product.models import Product
+>>> Product.objects.all()
+<QuerySet [<Product: Product object (1)>]>
+>>> Product.objects.create(title='New product2', description='another one', price='19.33', summary='wow')
+<Product: Product object (2)>
+>>> Product.objects.all()
+<QuerySet [<Product: Product object (1)>, <Product: Product object (2)>]>
+>>>  Product.objects.create(title='New product2', description='another one', price='19.33', summary='wow')
+  File "<console>", line 1
+    Product.objects.create(title='New product2', description='another one', price='19.33', summary='wow')
+    ^
+IndentationError: unexpected indent
+>>> Product.objects.create(title='New product2', description='another one', price='19.33', summary='wow')
+<Product: Product object (3)>
+>>> Product.objects.create(title='New product2', description='another one', price='19.33', summary='wow')
+<Product: Product object (4)>
+>>> Product.objects.create(title='New product2', description='another one', price='19.33', summary='wow')
+<Product: Product object (5)>
+>>> Product.objects.create(title='New product2', description='another one', price='19.33', summary='wow')
+<Product: Product object (6)>
+>>> Product.objects.all()
+<QuerySet [<Product: Product object (1)>, <Product: Product object (2)>, <Product: Product object (3)>, <Product: Product object (4)>, <Product: Product object (5)>, <Product: Product object (6)>]>
+>>> ^Z
+
+now exiting InteractiveConsole...
+PS C:\Users\kulpr\Dev\cfehome\src> python manage.py makemigrations
+Migrations for 'product':
+  product\migrations\0001_initial.py
+    - Create model Product
+PS C:\Users\kulpr\Dev\cfehome\src> python manage.py migrate
+Operations to perform:
+  Apply all migrations: admin, auth, contenttypes, product, sessions
+Running migrations:
+  Applying contenttypes.0001_initial... OK
+  Applying auth.0001_initial... OK
+  Applying admin.0001_initial... OK
+  Applying admin.0002_logentry_remove_auto_add... OK
+  Applying admin.0003_logentry_add_action_flag_choices... OK
+  Applying contenttypes.0002_remove_content_type_name... OK
+  Applying auth.0002_alter_permission_name_max_length... OK
+  Applying auth.0003_alter_user_email_max_length... OK
+  Applying auth.0004_alter_user_username_opts... OK
+  Applying auth.0005_alter_user_last_login_null... OK
+  Applying auth.0006_require_contenttypes_0002... OK
+  Applying auth.0007_alter_validators_add_error_messages... OK
+  Applying auth.0008_alter_user_username_max_length... OK
+  Applying auth.0009_alter_user_last_name_max_length... OK
+  Applying product.0001_initial... OK
+  Applying sessions.0001_initial... OK
+PS C:\Users\kulpr\Dev\cfehome\src> python manage.py createsuperuser
+Username (leave blank to use 'kulpr'): cfe
+Email address:
+Password:
+Password (again):
+Superuser created successfully.
+PS C:\Users\kulpr\Dev\cfehome\src> python manage.py shell
+Python 3.7.8 (tags/v3.7.8:4b47a5b6ba, Jun 28 2020, 08:53:46) [MSC v.1916 64 bit (AMD64)] on win32
+Type "help", "copyright", "credits" or "license" for more information.
+(InteractiveConsole)
+>>> Product.objects.all()
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+NameError: name 'Product' is not defined
+>>> from product.models import Product
+>>> Product.objects.all()
+<QuerySet [<Product: Product object (1)>]>
+>>> Product.objects.create(title='New one',description='real',price=5.79,summary='Awesome')
+<Product: Product object (2)>
+>>> Product.objects.all()
+<QuerySet [<Product: Product object (1)>, <Product: Product object (2)>]>
+>>> ^Z\
+
+now exiting InteractiveConsole...
+PS C:\Users\kulpr\Dev\cfehome\src> python manage.py makemigrations
+You are trying to add a non-nullable field 'featured' to product without a default; we can't do that (the database needs something to populate existing rows).
+Please select a fix:
+ 1) Provide a one-off default now (will be set on all existing rows with a null value for this column)
+ 2) Quit, and let me add a default in models.py
+Select an option: 1
+Please enter the default value now, as valid Python
+The datetime and django.utils.timezone modules are available, so you can do e.g. timezone.now
+Type 'exit' to exit this prompt
+>>> True
+Migrations for 'product':
+  product\migrations\0002_product_featured.py
+    - Add field featured to product
+PS C:\Users\kulpr\Dev\cfehome\src> python manage.py migrate
+Operations to perform:
+  Apply all migrations: admin, auth, contenttypes, product, sessions
+Running migrations:
+  Applying product.0002_product_featured... OK
+PS C:\Users\kulpr\Dev\cfehome\src> python manage.py makemigrations
+Migrations for 'product':
+  product\migrations\0003_auto_20200818_1429.py
+    - Alter field summary on product
+PS C:\Users\kulpr\Dev\cfehome\src> python manage.py migrate
+Operations to perform:
+  Apply all migrations: admin, auth, contenttypes, product, sessions
+Running migrations:
+  Applying product.0003_auto_20200818_1429... OK
+PS C:\Users\kulpr\Dev\cfehome\src> python manage.py makemigrations
+Migrations for 'product':
+  product\migrations\0004_remove_product_summary.py
+    - Remove field summary from product
+PS C:\Users\kulpr\Dev\cfehome\src> python manage.py migrate
+Operations to perform:
+  Apply all migrations: admin, auth, contenttypes, product, sessions
+Running migrations:
+  Applying product.0004_remove_product_summary... OK
+PS C:\Users\kulpr\Dev\cfehome\src> python manage.py makemigrations
+Migrations for 'product':
+  product\migrations\0005_product_summary.py
+    - Add field summary to product
+PS C:\Users\kulpr\Dev\cfehome\src> python manage.py migrate
+Operations to perform:
+  Apply all migrations: admin, auth, contenttypes, product, sessions
+Running migrations:
+  Applying product.0005_product_summary... OK
+PS C:\Users\kulpr\Dev\cfehome\src> python manage.py makemigrations
+Migrations for 'product':
+  product\migrations\0006_auto_20200818_1431.py
+    - Alter field summary on product
+PS C:\Users\kulpr\Dev\cfehome\src> python manage.py migrate
+Operations to perform:
+  Apply all migrations: admin, auth, contenttypes, product, sessions
+Running migrations:
+  Applying product.0006_auto_20200818_1431... OK
+PS C:\Users\kulpr\Dev\cfehome\src> python manage.py makemigrations
+Migrations for 'product':
+  product\migrations\0007_remove_product_summary.py
+    - Remove field summary from product
+PS C:\Users\kulpr\Dev\cfehome\src> python manage.py migrate
+Operations to perform:
+  Apply all migrations: admin, auth, contenttypes, product, sessions
+Running migrations:
+  Applying product.0007_remove_product_summary... OK
+PS C:\Users\kulpr\Dev\cfehome\src> python manage.py makemigrations
+No changes detected
+PS C:\Users\kulpr\Dev\cfehome\src> python manage.py makemigrations
+You are trying to add a non-nullable field 'summary' to product without a default; we can't do that (the database needs something to populate existing rows).
+Please select a fix:
+ 1) Provide a one-off default now (will be set on all existing rows with a null value for this column)
+ 2) Quit, and let me add a default in models.py
+Select an option: 1
+Please enter the default value now, as valid Python
+The datetime and django.utils.timezone modules are available, so you can do e.g. timezone.now
+Type 'exit' to exit this prompt
+>>> 'This is something Different'
+Migrations for 'product':
+  product\migrations\0008_product_summary.py
+    - Add field summary to product
+PS C:\Users\kulpr\Dev\cfehome\src> python manage.py migrate
+Operations to perform:
+  Apply all migrations: admin, auth, contenttypes, product, sessions
+Running migrations:
+  Applying product.0008_product_summary... OK
+PS C:\Users\kulpr\Dev\cfehome\src> python manage.py makemigrations
+Migrations for 'product':
+  product\migrations\0009_auto_20200818_1434.py
+    - Alter field summary on product
+PS C:\Users\kulpr\Dev\cfehome\src> python manage.py migrate
+Operations to perform:
+  Apply all migrations: admin, auth, contenttypes, product, sessions
+Running migrations:
+  Applying product.0009_auto_20200818_1434... OK
+PS C:\Users\kulpr\Dev\cfehome\src>
+
+
+
+
+PS C:\Users\kulpr> cd ~/dev/cfehome
+PS C:\Users\kulpr\dev\cfehome> pipenv shell
+Launching subshell in virtual environment…
+Windows PowerShell
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+Try the new cross-platform PowerShell https://aka.ms/pscore6
+
+PS C:\Users\kulpr\dev\cfehome> cd ./src
+PS C:\Users\kulpr\dev\cfehome\src> ls
+
+
+    Directory: C:\Users\kulpr\dev\cfehome\src
+
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d-----        13-08-2020     00:11                trydjango
+-a----        13-08-2020     00:49         131072 db.sqlite3
+-a----        13-08-2020     00:11            556 manage.py
+
+
+PS C:\Users\kulpr\dev\cfehome\src> python manage.py runserver
+Performing system checks...
+
+System check identified no issues (0 silenced).
+August 13, 2020 - 13:26:09
+Django version 2.0.7, using settings 'trydjango.settings'
+Starting development server at http://127.0.0.1:8000/
+Quit the server with CTRL-BREAK.
+[13/Aug/2020 13:26:28] "GET / HTTP/1.1" 200 16348
+[13/Aug/2020 13:26:28] "GET /static/admin/css/fonts.css HTTP/1.1" 304 0
+[13/Aug/2020 13:26:28] "GET /static/admin/fonts/Roboto-Light-webfont.woff HTTP/1.1" 304 0
+[13/Aug/2020 13:26:28] "GET /static/admin/fonts/Roboto-Regular-webfont.woff HTTP/1.1" 304 0
+[13/Aug/2020 13:26:28] "GET / HTTP/1.1" 200 16348
+[13/Aug/2020 13:26:28] "GET /static/admin/fonts/Roboto-Bold-webfont.woff HTTP/1.1" 304 0
+Not Found: /favicon.ico
+[13/Aug/2020 13:26:28] "GET /favicon.ico HTTP/1.1" 404 1975
+Performing system checks...
+
+System check identified no issues (0 silenced).
+August 13, 2020 - 13:40:00
+Django version 2.0.7, using settings 'trydjango.settings'
+Starting development server at http://127.0.0.1:8000/
+Quit the server with CTRL-BREAK.
+Performing system checks...
